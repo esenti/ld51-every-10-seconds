@@ -13,7 +13,7 @@
   let elapsed = 0;
   let loading = 0;
 
-// const DEBUG = false;
+  // const DEBUG = false;
   const DEBUG = true;
 
   const keysDown = {};
@@ -75,7 +75,7 @@
     score = 0;
 
     player = {
-      x: 400,
+      x: 385,
       y: 590,
       w: 30,
       h: 10,
@@ -204,8 +204,14 @@
       document.getElementById("instructions").textContent = randomString(Math.floor(Math.random() * 10) + 20);
 
       controls.left = 65 + Math.floor(Math.random() * 25);
-      controls.right = 65 + Math.floor(Math.random() * 25);
-      controls.shoot = 65 + Math.floor(Math.random() * 25);
+
+      do {
+        controls.right = 65 + Math.floor(Math.random() * 25);
+      } while(controls.right == controls.left);
+
+      do {
+        controls.shoot = 65 + Math.floor(Math.random() * 25);
+      } while(controls.shoot == controls.left || controls.shoot == controls.right);
 
       console.log(controls)
     }
