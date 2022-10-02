@@ -13,8 +13,8 @@
   let elapsed = 0;
   let loading = 0;
 
-  // const DEBUG = false;
-  const DEBUG = true;
+  const DEBUG = false;
+  // const DEBUG = true;
 
   const keysDown = {};
   let keysPressed = {};
@@ -42,6 +42,10 @@
 
   let controls;
   let colors;
+
+  let tutorialSize;
+  let tutorialTtl;
+  let tutorialShown;
 
   window.addEventListener("keydown", function(e) {
     keysDown[e.keyCode] = true;
@@ -108,6 +112,10 @@
     toEnemyPeriodUpdate = 10;
 
     toRandomize = 10;
+
+    tutorialSize = 0;
+    tutorialTtl = 0;
+    tutorialShown = false;
 
     particles.splice(0, particles.length);
 
@@ -212,6 +220,13 @@
       do {
         controls.shoot = 65 + Math.floor(Math.random() * 25);
       } while(controls.shoot == controls.left || controls.shoot == controls.right);
+
+      if(tutorialShown == false)
+      {
+        tutorialSize = 1;
+        tutorialTtl = 1.5;
+        tutorialShown = true;
+      }
 
       console.log(controls)
     }
@@ -319,6 +334,11 @@
        particles[i].y += particles[i].dy * particles[i].speed * delta;
        particles[i].a += delta * Math.random();
      }
+
+     if(tutorialTtl) {
+        tutorialTtl -= delta;
+        tutorialSize += delta * 50;
+     }
  };
 
   const draw = function(delta) {
@@ -349,6 +369,13 @@
     ctx.font = "32px Visitor";
     ctx.textAlign = "center";
     ctx.fillText(Math.round(points), 400, 30);
+
+    if(tutorialTtl > 0)
+    {
+      ctx.fillStyle = "#ffffff";
+      ctx.font = tutorialSize + "px Visitor";
+      ctx.fillText("Controls changed!", 400, 350);
+    }
 
      if(ogre) {
         ctx.fillStyle = "#ffffff";
